@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Crossfade</string>
+    <string name="file_1">File 1</string>
+    <string name="file_2">File 2</string>
+    <string name="track_1">File 1: %1$s</string>
+    <string name="track_2">File 2: %1$s</string>
+    <string name="play">Play</string>
+    <string name="silence">Silence</string>
+    <string name="played_1_file">File 1 is playing now</string>
+    <string name="played_2_file">File 2 is playing now</string>
+    <string name="transition">Transition in progress</string>
+    <string name="сhoose_file_1">Choose file 1</string>
+    <string name="сhoose_file_2">Choose file 2</string>
+    <string name="cross_fade_value">%1$s s.</string>
 </resources>

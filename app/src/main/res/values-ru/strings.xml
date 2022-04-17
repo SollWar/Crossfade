@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crossfade</string>
+    <string name="file_1">Файл 1</string>
+    <string name="file_2">Файл 2</string>
+    <string name="track_1">Файл 1: %1$s</string>
+    <string name="track_2">Файл 2: %1$s</string>
+    <string name="play">Играть</string>
+    <string name="silence">Тишина</string>
+    <string name="played_1_file">Сейчас играет файл 1</string>
+    <string name="played_2_file">Сейчас играет файл 2</string>
+    <string name="transition">Выполняется переход</string>
+    <string name="сhoose_file_1">Выберите файл 1</string>
+    <string name="сhoose_file_2">Выберите файл 2</string>
+    <string name="cross_fade_value">%1$s с.</string>
+</resources>

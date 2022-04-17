@@ -8,7 +8,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class CrossFade(context: Context, path1: Uri, path2: Uri, var crossFade: Int) {
+class CrossFade(private val callbacks: Callbacks, private val context: Context, path1: Uri, path2: Uri, var crossFade: Int) {
+
+    interface Callbacks  {
+        fun mp1Played()
+        fun mp2Played()
+        fun crossPlayed()
+    }
 
     private val mp1 = MediaPlayer()
     private val mp2 = MediaPlayer()
@@ -31,7 +37,7 @@ class CrossFade(context: Context, path1: Uri, path2: Uri, var crossFade: Int) {
 
     private var loop = true
     private var mp1FadeOff = false
-    private var mp2FadeOff = false
+    private var mp2FadeOff = true
 
     fun destroyLoop() {
         loop = false
@@ -47,6 +53,13 @@ class CrossFade(context: Context, path1: Uri, path2: Uri, var crossFade: Int) {
         CoroutineScope(Dispatchers.Main).launch {
             mp1.start()
             while (loop) {
+                if (mp1.isPlaying && mp2.isPlaying) {
+                    callbacks.crossPlayed()
+                } else if (mp1.isPlaying) {
+                    callbacks.mp1Played()
+                } else if (mp2.isPlaying) {
+                    callbacks.mp2Played()
+                }
                 if (mp1.duration - mp1.currentPosition <= crossFade * 1000 && !mp1FadeOff) {
                     onCrossFade(mp1, mp2, crossFade)
                     mp1FadeOff = true
