@@ -22,12 +22,15 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         var crossFadeValue = binding.seekBar.progress + 1
+        binding.fileName1.text = viewModel.path1
+        binding.fileName2.text = viewModel.path2
 
         val getFilePath1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 viewModel.path1 = Environment.getExternalStorageDirectory().toString() +
                         "/" +
                         result.data!!.data!!.lastPathSegment!!.substring(8)
+                binding.fileName1.text = viewModel.path1
             }
         }
         val getFilePath2 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.path2 = Environment.getExternalStorageDirectory().toString() +
                         "/" +
                         result.data!!.data!!.lastPathSegment!!.substring(8)
+                binding.fileName2.text = viewModel.path2
             }
         }
 
@@ -65,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                Toast.makeText(this@MainActivity, "CrossFade = ${crossFadeValue + 1}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Кросс-фейд = ${crossFadeValue + 1} секунд", Toast.LENGTH_SHORT).show()
             }
 
         })

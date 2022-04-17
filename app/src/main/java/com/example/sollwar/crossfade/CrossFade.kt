@@ -38,6 +38,9 @@ class CrossFade(path1: String, path2: String, var crossFade: Int) {
     }
 
     private fun startLoop() {
+        // Чтобы кроссфейд был не длиннее файлов
+        if (crossFade < mp1.duration) crossFade = mp1.duration / 1000
+        if (crossFade < mp2.duration) crossFade = mp2.duration / 1000
         loop = true
         CoroutineScope(Dispatchers.Main).launch {
             mp1.start()
