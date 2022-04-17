@@ -3,7 +3,6 @@ package com.example.sollwar.crossfade
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,23 +21,19 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         var crossFadeValue = binding.seekBar.progress + 1
-        binding.fileName1.text = viewModel.path1
-        binding.fileName2.text = viewModel.path2
+        binding.fileName1.text = viewModel.path1?.lastPathSegment.toString()
+        binding.fileName2.text = viewModel.path2?.lastPathSegment.toString()
 
         val getFilePath1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                viewModel.path1 = Environment.getExternalStorageDirectory().toString() +
-                        "/" +
-                        result.data!!.data!!.lastPathSegment!!.substring(8)
-                binding.fileName1.text = viewModel.path1
+                viewModel.path1 = result.data!!.data
+                binding.fileName1.text = result.data!!.data!!.lastPathSegment
             }
         }
         val getFilePath2 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                viewModel.path2 = Environment.getExternalStorageDirectory().toString() +
-                        "/" +
-                        result.data!!.data!!.lastPathSegment!!.substring(8)
-                binding.fileName2.text = viewModel.path2
+                viewModel.path2 = result.data!!.data
+                binding.fileName2.text = result.data!!.data!!.lastPathSegment
             }
         }
 
@@ -54,9 +49,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.playButton.setOnClickListener {
-            viewModel.startCrossFade(crossFadeValue)
-            if (viewModel.path1 == "") Toast.makeText(this, "Выберите файл 1", Toast.LENGTH_SHORT).show()
-            if (viewModel.path2 == "") Toast.makeText(this, "Выберите файл 2", Toast.LENGTH_SHORT).show()
+            viewModel.startCrossFade(this, crossFadeValue)
+            if (viewModel.path1 == null) Toast.makeText(this, "Выберите файл 1", Toast.LENGTH_SHORT).show()
+            if (viewModel.path2 == null) Toast.makeText(this, "Выберите файл 2", Toast.LENGTH_SHORT).show()
         }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {

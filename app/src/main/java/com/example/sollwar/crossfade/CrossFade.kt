@@ -1,23 +1,25 @@
 package com.example.sollwar.crossfade
 
+import android.content.Context
 import android.media.MediaPlayer
+import android.net.Uri
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class CrossFade(path1: String, path2: String, var crossFade: Int) {
+class CrossFade(context: Context, path1: Uri, path2: Uri, var crossFade: Int) {
 
     private val mp1 = MediaPlayer()
     private val mp2 = MediaPlayer()
 
     init {
         mp1.apply {
-            setDataSource(path1)
+            setDataSource(context, path1)
             prepareAsync()
         }
         mp2.apply {
-            setDataSource(path2)
+            setDataSource(context, path2)
             prepareAsync()
         }
         mp1.setOnPreparedListener {
@@ -39,8 +41,8 @@ class CrossFade(path1: String, path2: String, var crossFade: Int) {
 
     private fun startLoop() {
         // Чтобы кроссфейд был не длиннее файлов
-        if (crossFade < mp1.duration) crossFade = mp1.duration / 1000
-        if (crossFade < mp2.duration) crossFade = mp2.duration / 1000
+        if (crossFade > mp1.duration) crossFade = mp1.duration / 1000
+        if (crossFade > mp2.duration) crossFade = mp2.duration / 1000
         loop = true
         CoroutineScope(Dispatchers.Main).launch {
             mp1.start()
