@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         var crossFadeValue = binding.seekBar.progress + 2
         binding.fileName1.text = getString(R.string.track_1, viewModel.path1?.lastPathSegment)
-        binding.fileName2.text = getString(R.string.track_2, viewModel.path1?.lastPathSegment)
+        binding.fileName2.text = getString(R.string.track_2, viewModel.path2?.lastPathSegment)
         binding.crossFadeValue.text = getString(R.string.cross_fade_value, crossFadeValue.toString())
 
         val getFilePath1 = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
