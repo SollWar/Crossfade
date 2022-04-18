@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 class MainViewModel : ViewModel(){
     private var crossFade: CrossFade? = null
     private val playedLiveData: MutableLiveData<String> = MutableLiveData()
+    private val crossFadeValue: MutableLiveData<Int> = MutableLiveData()
     var path1: Uri? = null
     var path2: Uri? = null
 
@@ -31,9 +32,13 @@ class MainViewModel : ViewModel(){
         override fun crossPlayed() {
             if (playedLiveData.value != "crossPlayed") playedLiveData.value = "crossPlayed"
         }
+        override fun crossFadeValueChanged(newFadeValue: Int) {
+            crossFadeValue.value = newFadeValue
+        }
     }
 
     fun getPlayed(): LiveData<String> = playedLiveData
+    fun getNewCrossFadeValue(): LiveData<Int> = crossFadeValue
 
     override fun onCleared() {
         super.onCleared()

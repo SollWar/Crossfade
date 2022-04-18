@@ -55,22 +55,42 @@ class MainActivity : AppCompatActivity() {
             if (viewModel.path2 == null) Toast.makeText(this, getString(R.string.сhoose_file_2), Toast.LENGTH_SHORT).show()
         }
 
+        viewModel.getNewCrossFadeValue().observe(
+            this
+        ) { value ->
+            value?.let {
+                Toast.makeText(this, getString(R.string.new_crossfade_time, value.toString()), Toast.LENGTH_SHORT).show()
+                crossFadeValue = value
+                binding.crossFadeValue.text = getString(R.string.cross_fade_value, crossFadeValue.toString())
+                binding.seekBar.progress = crossFadeValue - 2
+            }
+        }
+
         viewModel.getPlayed().observe(
             this
         ) { played ->
             played?.let {
                 when (played) {
-                    "mp1Played" -> binding.playedTextView.text = getString(R.string.played_1_file)
-                    "mp2Played" -> binding.playedTextView.text = getString(R.string.played_2_file)
-                    "crossPlayed" -> binding.playedTextView.text = getString(R.string.transition)
+                    "mp1Played" -> {
+                        binding.playedTextView.text = getString(R.string.played_1_file)
+                        binding.playButton.isEnabled = true
+                    }
+                    "mp2Played" -> {
+                        binding.playedTextView.text = getString(R.string.played_2_file)
+                        binding.playButton.isEnabled = true
+                    }
+                    "crossPlayed" -> {
+                        binding.playedTextView.text = getString(R.string.transition)
+                        binding.playButton.isEnabled = false
+                    }
                 }
             }
         }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                crossFadeValue = p1 + 1
-                binding.crossFadeValue.text = getString(R.string.cross_fade_value, (crossFadeValue + 1).toString())
+                crossFadeValue = p1 + 2
+                binding.crossFadeValue.text = getString(R.string.cross_fade_value, crossFadeValue.toString())
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {

@@ -13,4 +13,5 @@
     <string name="сhoose_file_1">Выберите файл 1</string>
     <string name="сhoose_file_2">Выберите файл 2</string>
     <string name="cross_fade_value">%1$s с.</string>
+    <string name="new_crossfade_time">Время кроссфейда слишком большое! Изменено на %1$s</string>
 </resources>
